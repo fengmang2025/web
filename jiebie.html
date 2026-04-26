@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>界别基本情况 - 政协委员通</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --main-red: #C41E3A;
+            --main-blue: #1E4D8C;
+            --light-gray: #F5F6FA;
+        }
+        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: var(--light-gray); color: #333; }
+        .header { background: linear-gradient(135deg, var(--main-blue) 0%, #2B5797 100%); color: white; padding: 0; position: sticky; top: 0; z-index: 1000; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
+        .logo { font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .nav-menu { display: flex; list-style: none; gap: 8px; }
+        .nav-menu li a { color: white; text-decoration: none; font-size: 14px; padding: 8px 14px; border-radius: 4px; transition: 0.3s; }
+        .nav-menu li a:hover, .nav-menu li a.active { background: rgba(255,255,255,0.15); color: #ffd700; }
+        .page-header { background: linear-gradient(135deg, var(--main-blue) 0%, #2B5797 100%); color: white; padding: 50px 0; text-align: center; }
+        .page-header h1 { font-size: 32px; margin-bottom: 10px; }
+        .page-header p { font-size: 16px; opacity: 0.9; }
+        .section { padding: 40px 0; }
+        .section-title { text-align: center; margin-bottom: 30px; color: var(--main-blue); font-size: 26px; }
+        .section-title::after { content: ""; width: 60px; height: 3px; background: var(--main-red); display: block; margin: 10px auto 0; }
+        .jiebie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
+        .jiebie-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: 0.3s; }
+        .jiebie-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .jiebie-header { background: var(--main-blue); color: white; padding: 15px 20px; font-size: 18px; font-weight: bold; }
+        .jiebie-photos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 12px; }
+        .jiebie-photos img { width: 100%; height: 120px; object-fit: cover; border-radius: 6px; }
+        .jiebie-desc { padding: 0 15px 15px; font-size: 14px; color: #666; line-height: 1.6; }
+        .footer { background: #1a1a2e; color: white; text-align: center; padding: 25px 0; margin-top: 40px; }
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; gap: 12px; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; }
+            .jiebie-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <div class="header-inner">
+            <div class="logo">⚖ 政协委员通 · 上城区履职平台</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="jiebie.html" class="active">界别基本情况</a></li>
+                <li><a href="street.html">街道委员小组</a></li>
+                <li><a href="practice-center.html">协商民主实践中心</a></li>
+                <li><a href="studio.html">委员工作室</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="page-header">
+    <div class="container">
+        <h1>界别基本情况</h1>
+        <p>上城区政协16个界别委员活动展示</p>
+    </div>
+</div>
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">各界别活动剪影</h2>
+        <div class="jiebie-grid">
+            <div class="jiebie-card">
+                <div class="jiebie-header">1. 中共界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/1中共/2024.02.02 区政协一届三次会议中共界别小组讨论会.webp" alt="中共界别">
+                    <img src="images/3. 界别基本情况/活动照片/1中共/2022.12.06 中共界别委员交流活动.webp" alt="中共界别">
+                </div>
+                <div class="jiebie-desc">中共界别委员积极参政议政，开展专题学习研讨，参与政协重要会议讨论。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">2. 无党派界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/2无党派/范国良副主席为老字号工作室揭牌.webp" alt="无党派界别">
+                    <img src="images/3. 界别基本情况/活动照片/2无党派/重阳节开展为老服务.webp" alt="无党派界别">
+                </div>
+                <div class="jiebie-desc">无党派界别开展老旧小区物业调研、涉外法律服务调研等活动，积极反映社情民意。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">3. 共青团、青联界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/3共青团、青联/IMG_20240531_160417.webp" alt="青联界别">
+                    <img src="images/3. 界别基本情况/活动照片/3共青团、青联/mmexport1717153126963.webp" alt="青联界别">
+                </div>
+                <div class="jiebie-desc">共青团青联界别开展青年活动，组织青年委员交流学习，助力青年发展。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">4. 工会界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/4工会/5月25日2024年上城区职工毅行大会.webp" alt="工会界别">
+                    <img src="images/3. 界别基本情况/活动照片/4工会/2024年5月6日 上工大讲堂.webp" alt="工会界别">
+                </div>
+                <div class="jiebie-desc">工会界别组织开展职工毅行大会、上工大讲堂等活动，服务职工群众。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">5. 妇联界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/5妇联/妇联界别开展"品宋韵文化  做精致丽人"三八节活动.webp" alt="妇联界别">
+                    <img src="images/3. 界别基本情况/活动照片/5妇联/妇联界别召集人吕仕琼开展"七一"慰问.webp" alt="妇联界别">
+                </div>
+                <div class="jiebie-desc">妇联界别开展宋韵文化体验、七一慰问等活动，关爱妇女儿童事业发展。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">6. 工商联界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/6工商联/组织民企500强部分人员参观考察钱二.webp" alt="工商联界别">
+                    <img src="images/3. 界别基本情况/活动照片/6工商联/深圳浙江商会考察钱二图片.webp" alt="工商联界别">
+                </div>
+                <div class="jiebie-desc">工商联界别组织民营企业家考察交流，服务民营经济发展。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">7. 科技、科协界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/7科技、科协/mmexport1711700143984.webp" alt="科技界别">
+                    <img src="images/3. 界别基本情况/活动照片/7科技、科协/mmexport1711702029812.webp" alt="科技界别">
+                </div>
+                <div class="jiebie-desc">科技科协界别开展科技创新交流，助推产学研合作。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">8. 侨、台界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/8侨、台/WechatIMG31.webp" alt="侨台界别">
+                    <img src="images/3. 界别基本情况/活动照片/8侨、台/WechatIMG32.webp" alt="侨台界别">
+                </div>
+                <div class="jiebie-desc">侨台界别开展侨胞联络服务，促进海内外交流合作。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">9. 新闻文体界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/9新闻文体/2023年8月，参观亚运会博物馆.webp" alt="新闻文体界别">
+                    <img src="images/3. 界别基本情况/活动照片/9新闻文体/2023年8月，参观亚运会博物馆2.webp" alt="新闻文体界别">
+                </div>
+                <div class="jiebie-desc">新闻文体界别开展文化体育活动，参观亚运会博物馆等。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">10. 经济界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/10经济/619ee9289835d103c435f174c1e0cff.webp" alt="经济界别">
+                    <img src="images/3. 界别基本情况/活动照片/10经济/353cd94f8a4dc02a2e821a5ba8ab043.webp" alt="经济界别">
+                </div>
+                <div class="jiebie-desc">经济界别委员积极参政议政，为区域经济发展建言献策。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">11. 环境资源和农业界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/11环境资源和农业/42e4ebbcbe8d12cf29a4876baecaca2a.webp" alt="环农界别">
+                    <img src="images/3. 界别基本情况/活动照片/11环境资源和农业/3f7343aec8231bde22a668a4e17d149a.webp" alt="环农界别">
+                </div>
+                <div class="jiebie-desc">环境资源和农业界别关注生态文明建设，助力乡村振兴。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">12. 教育界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/12教育/IMG_2126.webp" alt="教育界别">
+                    <img src="images/3. 界别基本情况/活动照片/12教育/2f41c28d4b53804fb60bb6ef196c54a4.webp" alt="教育界别">
+                </div>
+                <div class="jiebie-desc">教育界别关注教育事业发展，开展教育调研活动。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">13. 医卫界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/13医卫/IMG20240527105848.webp" alt="医卫界别">
+                    <img src="images/3. 界别基本情况/活动照片/13医卫/IMG20240527161315.webp" alt="医卫界别">
+                </div>
+                <div class="jiebie-desc">医卫界别开展健康义诊活动，服务群众健康需求。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">14. 社会福利和保障界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/14社会福利和保障/区政府副主席范国良与政协委员参观社会福利和保障界别委员工作室.webp" alt="社福界别">
+                    <img src="images/3. 界别基本情况/活动照片/14社会福利和保障/联动邵逸夫医院，开展"以爱之名"等残疾人画展及手工艺品义卖活动.webp" alt="社福界别">
+                </div>
+                <div class="jiebie-desc">社会福利和保障界别开展残疾人关爱、义卖等活动。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">15. 民族宗教界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/15民宗/IMG_20240315_085702.webp" alt="民宗界别">
+                    <img src="images/3. 界别基本情况/活动照片/15民宗/IMG_20240618_095251.webp" alt="民宗界别">
+                </div>
+                <div class="jiebie-desc">民族宗教界别促进民族团结宗教和谐。</div>
+            </div>
+            <div class="jiebie-card">
+                <div class="jiebie-header">16. 特邀界别</div>
+                <div class="jiebie-photos">
+                    <img src="images/3. 界别基本情况/活动照片/16特邀/现场调研德寿宫附近停车泊位情况.webp" alt="特邀界别">
+                    <img src="images/3. 界别基本情况/活动照片/16特邀/现场调研湖滨步行街营商环境提升项目.webp" alt="特邀界别">
+                </div>
+                <div class="jiebie-desc">特邀界别开展营商环境调研、德寿宫周边调研等活动。</div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="footer">
+    <div class="container">
+        <p>政协委员通 - 上城区履职服务平台 © 版权所有</p>
+    </div>
+</div>
+</body>
+</html>

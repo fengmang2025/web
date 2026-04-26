@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>街道委员小组 - 政协委员通</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --main-red: #C41E3A; --main-blue: #1E4D8C; --light-gray: #F5F6FA; }
+        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: var(--light-gray); color: #333; }
+        .header { background: linear-gradient(135deg, var(--main-blue) 0%, #2B5797 100%); color: white; padding: 0; position: sticky; top: 0; z-index: 1000; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
+        .logo { font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .nav-menu { display: flex; list-style: none; gap: 8px; }
+        .nav-menu li a { color: white; text-decoration: none; font-size: 14px; padding: 8px 14px; border-radius: 4px; transition: 0.3s; }
+        .nav-menu li a:hover, .nav-menu li a.active { background: rgba(255,255,255,0.15); color: #ffd700; }
+        .page-header { background: linear-gradient(135deg, var(--main-blue) 0%, #2B5797 100%); color: white; padding: 50px 0; text-align: center; }
+        .page-header h1 { font-size: 32px; margin-bottom: 10px; }
+        .page-header p { font-size: 16px; opacity: 0.9; }
+        .section { padding: 40px 0; }
+        .section-title { text-align: center; margin-bottom: 30px; color: var(--main-blue); font-size: 26px; }
+        .section-title::after { content: ""; width: 60px; height: 3px; background: var(--main-red); display: block; margin: 10px auto 0; }
+        .street-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
+        .street-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: 0.3s; }
+        .street-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .street-header { background: linear-gradient(135deg, var(--main-blue) 0%, #2B5797 100%); color: white; padding: 15px 20px; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .street-header span { font-size: 14px; opacity: 0.8; }
+        .street-photos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 12px; }
+        .street-photos img { width: 100%; height: 130px; object-fit: cover; border-radius: 6px; }
+        .street-desc { padding: 0 15px 15px; font-size: 14px; color: #666; line-height: 1.6; }
+        .footer { background: #1a1a2e; color: white; text-align: center; padding: 25px 0; margin-top: 40px; }
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; gap: 12px; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; }
+            .street-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <div class="header-inner">
+            <div class="logo">⚖ 政协委员通 · 上城区履职平台</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="jiebie.html">界别基本情况</a></li>
+                <li><a href="street.html" class="active">街道委员小组</a></li>
+                <li><a href="practice-center.html">协商民主实践中心</a></li>
+                <li><a href="studio.html">委员工作室</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="page-header">
+    <div class="container">
+        <h1>街道委员小组</h1>
+        <p>上城区14个街道政协活动展示</p>
+    </div>
+</div>
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">各街道活动剪影</h2>
+        <div class="street-grid">
+            <div class="street-card">
+                <div class="street-header">湖滨街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠8-湖滨街道委员小组开展"助推商圈社区建设"民生议事堂活动.webp" alt="湖滨街道">
+                    <img src="images/5. 委员履职平台/1-政协湖滨小组委员工作室-学习考察新质生产力一-万事利科创中心.webp" alt="湖滨街道">
+                </div>
+                <div class="street-desc">湖滨街道委员小组开展助推商圈社区建设民生议事堂活动，组织委员学习考察新质生产力。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">清波街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠9-清波街道委员小组、无党派界别开展清波街道老旧小区物业服务"质价双提"议事协商活动.webp" alt="清波街道">
+                    <img src="images/5. 委员履职平台/2-政协清波小组委员工作室-幸福清波，文化送福，联动中国美院为清波派出所、禁毒所、清波居民送新年祝福.webp" alt="清波街道">
+                </div>
+                <div class="street-desc">清波街道开展老旧小区物业服务"质价双提"议事协商活动，联动中国美院送祝福。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">小营街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠10-小营街道委员小组举办"遇见东坡"交流会.webp" alt="小营街道">
+                </div>
+                <div class="street-desc">小营街道委员小组举办"遇见东坡"文化交流活动，传承宋韵文化。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">望江街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠11-望江街道委员小组开展"普及全民金融知识增强百姓防诈意识"专题协商活动.webp" alt="望江街道">
+                </div>
+                <div class="street-desc">望江街道开展"普及全民金融知识增强百姓防诈意识"专题协商活动。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">南星街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠12-南星街道委员小组携手特邀界别举办"赓续历史之文脉，建言服务为民生"冬季读书会及专题协商会.webp" alt="南星街道">
+                </div>
+                <div class="street-desc">南星街道携手特邀界别举办"赓续历史之文脉"冬季读书会及专题协商会。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">紫阳街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/紫阳1-区政协孙国方主席赴紫阳分中心调研.webp" alt="紫阳街道">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/紫阳3-紫阳上羊实践点开展"推动邻里食堂智能化"专题协商会.webp" alt="紫阳街道">
+                </div>
+                <div class="street-desc">紫阳街道开展"推动邻里食堂智能化"专题协商会，区政协领导调研指导工作。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">彭埠街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠1-市政协新时代协商民主实践中心矩阵建设座谈会在实践中心上城区分中心召开，市政协毛溪浩副主席参加.webp" alt="彭埠街道">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠3-彭埠街道委员小组开展"圆梦安居，助力街道回迁安置"民生议事堂专题协商.webp" alt="彭埠街道">
+                </div>
+                <div class="street-desc">彭埠街道开展"圆梦安居，助力回迁安置"民生议事堂专题协商，市政协领导参加座谈会。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">四季青街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/5. 委员履职平台/5-政协四季青小组委员工作室-市区县三级联动，召开"投早投小投科技"专题协商会.webp" alt="四季青街道">
+                </div>
+                <div class="street-desc">四季青街道开展"投早投小投科技"专题协商会，市区县三级联动。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">采荷街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/5. 委员履职平台/4-采荷街道"幸福19"委员工作室-"疗愈经济分享体验会"活动.webp" alt="采荷街道">
+                </div>
+                <div class="street-desc">采荷街道开展"疗愈经济分享体验会"活动，打造"幸福19"委员工作室。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">凯旋街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠5-联盟单位夏衍小学开展棋类比赛.webp" alt="凯旋街道">
+                </div>
+                <div class="street-desc">凯旋街道委员小组开展丰富多彩的社区活动，服务辖区群众。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">闸弄口街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠4-彭埠街道委员小组开展非遗体验活动.webp" alt="闸弄口">
+                </div>
+                <div class="street-desc">闸弄口街道委员小组开展传统文化体验活动，传承非遗文化。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">笕桥街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠6-妇联界别举办国学文化品鉴暨界别调研总结会.webp" alt="笕桥街道">
+                </div>
+                <div class="street-desc">笕桥街道委员小组开展国学文化品鉴活动，弘扬中华优秀传统文化。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">九堡街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/5. 委员履职平台/20-建和社区委员工作室-党建引领，做好点滴惠民小事，走访慰问九和人家独居老人.webp" alt="九堡街道">
+                </div>
+                <div class="street-desc">九堡街道开展党建引领惠民活动，走访慰问独居老人。</div>
+            </div>
+            <div class="street-card">
+                <div class="street-header">丁兰街道 <span>委员小组</span></div>
+                <div class="street-photos">
+                    <img src="images/5. 委员履职平台/22-同心·共富委员工作室-举行"乡村音乐节"，用实用管用的好点子，助力乡村振兴.webp" alt="丁兰街道">
+                </div>
+                <div class="street-desc">丁兰街道举行"乡村音乐节"，助力乡村振兴发展。</div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="footer">
+    <div class="container">
+        <p>政协委员通 - 上城区履职服务平台 © 版权所有</p>
+    </div>
+</div>
+</body>
+</html>
