@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基于 Hooks 的 React 课程管理</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel" data-presets="react">
+// ==================== 工具函数 ====================
+// 生成唯一ID
+const generateId = () => {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+};
+
+// ==================== 自定义 Hooks ====================
+
+/**
+ * 自定义 Hook: useLocalStorage
+ * 功能：同步 localStorage 的 state Hook
+ * 使用场景：需要持久化存储的 state
+ */
+function useLocalStorage(key, initialValue) {
+    // 使用 useState 初始化，从 localStorage 读取或使用默认值
+    const [storedValue, setStoredValue] = React.useState(() => {
+        try {
+            const item = window.localStorage.getItem(key);
+            return item ? JSON.parse(item) : initialValue;
+        } catch (error) {
+            console.error(`读取 localStorage 键 "${key}" 失败:`, error);
+            return initialValue;
+        }
+    });
+
+    // 使用 useEffect 将数据同步到 localStorage
+    React.useEffect(() => {
+        try {
+            window.localStorage.setItem(key, JSON.stringify(storedValue));
+        } catch (error) {
+            console.error(`保存 localStorage 键 "${key}" 失败:`, error);
+        }
+    }, [key, storedValue]);
+
+    return [storedValue, setStoredValue];
+}
+
+/**
+ * 自定义 Hook: useDebounce
+ * 功能：防抖 Hook，延迟更新值
+ * 使用场景：搜索输入、防止频繁请求
+ */
+function useDebounce(value, delay = 300) {
+    const [debouncedValue, setDebouncedValue] = React.useState(value);
+
+    React.useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        // 清理函数：value 变化时清除上一个定时器
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+}
+
+/**
+ * 自定义 Hook: usePrevious
+ * 功能：保存上一个渲染周期的值
+ * 使用场景：对比值的变化
+ */
+function usePrevious(value) {
+    const ref = React.useRef();
+
+    React.useEffect(() => {
+        ref.current = value;
+    }, [value]);
+
+    return ref.current;
+}
+
+// ==================== 子组件：课程卡片 ====================
+
+/**
+ * CourseCard 组件
+ * 功能：展示单个课程的信息和操作按钮
+ */
+function CourseCard({
+    course,
+    onLearn,
+    onDelete,
+    onEdit,
+    onSave,
+    onCancel,
+    isEditing,
+    editName,
+    editDesc,
+    onEditNameChange,
+    onEditDescChange
+}) {
+    // 编辑模式
+    if (isEditing) {
+        return (
+            <div className="course-card edit-mode">
+                <div className="course-info" style={{ width: '100%' }}>
+                    <input
+                        type="text"
+                        className="edit-input"
+                        value={editName}
+                        onChange={(e) => onEditNameChange(e.target.value)}
+                        placeholder="课程名称"
+                    />
+                    <textarea
+                        type="text"
+                        className="edit-input"
+                        value={editDesc}
+                        onChange={(e) => onEditDescChange(e.target.value)}
+                        placeholder="课程描述"
+                        rows="2"
+                    />
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
+                        <button className="btn btn-success" onClick={onSave}>
+                            💾 保存
+                        </button>
+                        <button className="btn btn-secondary" onClick={onCancel}>
+                            ❌ 取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // 正常显示模式
+    return (
+        <div className="course-card">
+            <div className="course-info">
+                <h3 className="course-name">{course.name}</h3>
+                <p className="course-description">{course.description}</p>
+            </div>
+            <div className="course-actions">
+                <button
+                    className="btn btn-success"
+                    onClick={() => onLearn(course)}
+                >
+                    📚 学习
+                </button>
+                <button
+                    className="btn btn-warning"
+                    onClick={() => onEdit(course)}
+                >
+                    ✏️ 编辑
+                </button>
+                <button
+                    className="btn btn-danger"
+                    onClick={() => onDelete(course.id)}
+                >
+                    🗑️ 删除
+                </button>
+            </div>
+        </div>
+    );
+}
+
+// ==================== 子组件：统计卡片 ====================
+
+/**
+ * StatsCard 组件
+ * 功能：展示统计数据的卡片
+ */
+function StatsCard({ label, value, highlight }) {
+    return (
+        <div className={`stat-card ${highlight ? 'highlight' : ''}`}>
+            <div className="stat-number">{value}</div>
+            <div className="stat-label">{label}</div>
+        </div>
+    );
+}
+
+// ==================== 子组件：搜索框 ====================
+
+/**
+ * SearchBar 组件
+ * 功能：搜索输入框
+ * 使用 useRef 暴露输入框引用
+ */
+function SearchBar({ value, onChange, inputRef }) {
+    return (
+        <div className="search-input-wrapper">
+            <span className="search-icon">🔍</span>
+            <input
+                ref={inputRef}
+                type="text"
+                placeholder="搜索课程名称..."
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+            />
+        </div>
+    );
+}
+
+// ==================== 主应用组件 ====================
+
+/**
+ * App 主组件
+ * 功能：课程管理系统的核心组件
+ * 使用的主要 Hooks：
+ *   - useState: 管理课程列表、输入内容、搜索关键词、编辑状态
+ *   - useEffect: 读取和保存本地存储数据
+ *   - useRef: 获取输入框 DOM 引用，实现自动聚焦
+ *   - useMemo: 缓存筛选后的课程列表
+ *   - useCallback: 缓存事件处理函数
+ */
+function App() {
+    // ==================== State 管理 ====================
+    // 课程列表 - 使用 useLocalStorage Hook 实现持久化
+    const [courses, setCourses] = useLocalStorage('courses', [
+        { id: generateId(), name: 'React 基础', description: '学习 React 的核心概念和组件化开发基础' },
+        { id: generateId(), name: 'React Hooks', description: '深入理解 useState、useEffect 等常用 Hook' },
+        { id: generateId(), name: 'Node.js 入门', description: '服务端的 JavaScript 运行环境和框架' }
+    ]);
+
+    // 输入框内容
+    const [newCourseName, setNewCourseName] = React.useState('');
+    const [newCourseDesc, setNewCourseDesc] = React.useState('');
+
+    // 搜索关键词
+    const [searchKeyword, setSearchKeyword] = React.useState('');
+
+    // 编辑状态
+    const [editingCourse, setEditingCourse] = React.useState(null);
+    const [editName, setEditName] = React.useState('');
+    const [editDesc, setEditDesc] = React.useState('');
+
+    // 提示消息
+    const [toast, setToast] = React.useState(null);
+
+    // ==================== Ref 管理 ====================
+    // 使用 useRef 获取输入框 DOM 引用，用于自动聚焦
+    const nameInputRef = React.useRef(null);
+    const searchInputRef = React.useRef(null);
+
+    // ==================== 防抖处理 ====================
+    // 使用 useDebounce 自定义 Hook 对搜索关键词进行防抖
+    const debouncedSearchKeyword = useDebounce(searchKeyword, 300);
+
+    // ==================== useMemo 缓存计算结果 ====================
+    // 使用 useMemo 缓存筛选后的课程列表，避免每次渲染都重新计算
+    const filteredCourses = React.useMemo(() => {
+        if (!debouncedSearchKeyword.trim()) {
+            return courses;
+        }
+        const keyword = debouncedSearchKeyword.toLowerCase();
+        return courses.filter(course =>
+            course.name.toLowerCase().includes(keyword)
+        );
+    }, [courses, debouncedSearchKeyword]);
+
+    // 计算统计数据的 useMemo
+    const totalCourses = courses.length;
+    const filteredCount = filteredCourses.length;
+    const searchActive = debouncedSearchKeyword.trim().length > 0;
+
+    // ==================== useCallback 缓存函数 ====================
+    // 使用 useCallback 缓存事件处理函数，避免子组件不必要的重渲染
+
+    // 显示提示消息
+    const showToast = React.useCallback((message, type = 'info') => {
+        setToast({ message, type });
+        setTimeout(() => setToast(null), 2500);
+    }, []);
+
+    // 学习按钮点击处理
+    const handleLearn = React.useCallback((course) => {
+        showToast(`🎉 正在学习：${course.name}`, 'success');
+    }, [showToast]);
+
+    // 删除课程处理
+    const handleDeleteCourse = React.useCallback((courseId) => {
+        setCourses(prevCourses => {
+            const deletedCourse = prevCourses.find(c => c.id === courseId);
+            const newCourses = prevCourses.filter(c => c.id !== courseId);
+            showToast(`已删除课程：${deletedCourse?.name || ''}`, 'warning');
+            return newCourses;
+        });
+    }, [setCourses, showToast]);
+
+    // 添加课程处理
+    const handleAddCourse = React.useCallback(() => {
+        const name = newCourseName.trim();
+        const desc = newCourseDesc.trim();
+
+        // 输入校验
+        if (!name) {
+            showToast('请输入课程名称！', 'error');
+            nameInputRef.current?.focus();
+            return;
+        }
+
+        if (!desc) {
+            showToast('请输入课程描述！', 'error');
+            return;
+        }
+
+        // 创建新课程
+        const newCourse = {
+            id: generateId(),
+            name: name,
+            description: desc
+        };
+
+        setCourses(prevCourses => [...prevCourses, newCourse]);
+        setNewCourseName('');
+        setNewCourseDesc('');
+        showToast(`✅ 已添加课程：${name}`, 'success');
+
+        // 使用 useRef 获取的 DOM 引用实现自动聚焦
+        // 这是 useRef 处理副作用的典型应用
+        nameInputRef.current?.focus();
+    }, [newCourseName, newCourseDesc, setCourses, showToast]);
+
+    // 编辑课程处理
+    const handleEdit = React.useCallback((course) => {
+        setEditingCourse(course.id);
+        setEditName(course.name);
+        setEditDesc(course.description);
+    }, []);
+
+    // 保存编辑
+    const handleSaveEdit = React.useCallback(() => {
+        if (!editName.trim() || !editDesc.trim()) {
+            showToast('请填写完整的课程信息！', 'error');
+            return;
+        }
+
+        setCourses(prevCourses =>
+            prevCourses.map(c =>
+                c.id === editingCourse
+                    ? { ...c, name: editName.trim(), description: editDesc.trim() }
+                    : c
+            )
+        );
+        setEditingCourse(null);
+        showToast('✅ 课程信息已更新！', 'success');
+    }, [editingCourse, editName, editDesc, setCourses, showToast]);
+
+    // 取消编辑
+    const handleCancelEdit = React.useCallback(() => {
+        setEditingCourse(null);
+    }, []);
+
+    // 搜索框变化处理
+    const handleSearchChange = React.useCallback((value) => {
+        setSearchKeyword(value);
+    }, []);
+
+    // 按下回车键添加课程
+    const handleKeyPress = React.useCallback((e) => {
+        if (e.key === 'Enter') {
+            handleAddCourse();
+        }
+    }, [handleAddCourse]);
+
+    // ==================== useEffect 处理副作用 ====================
+
+    // Effect 1: 页面首次加载时聚焦到输入框
+    // 体现了 useEffect 处理副作用（DOM 操作）的典型场景
+    React.useEffect(() => {
+        nameInputRef.current?.focus();
+    }, []);
+
+    // Effect 2: 当课程列表变化时，显示提示（可选功能）
+    // 这里保留一个空的依赖数组，表示只在挂载时执行
+    React.useEffect(() => {
+        // 初始化完成后的提示
+    }, []);
+
+    // ==================== 渲染 ====================
+    return (
+        <div className="app-container">
+            {/* 头部 */}
+            <header className="app-header">
+                <h1>📚 基于 Hooks 的 React 课程管理</h1>
+                <p>实验 7 - React Hooks 综合应用</p>
+            </header>
+
+            {/* 主内容 */}
+            <main className="main-content">
+                {/* 统计卡片 */}
+                <section className="stats-container">
+                    <StatsCard label="总课程数" value={totalCourses} highlight={false} />
+                    <StatsCard label="搜索结果" value={filteredCount} highlight={searchActive} />
+                    <StatsCard label="搜索状态" value={searchActive ? '进行中' : '未搜索'} highlight={true} />
+                </section>
+
+                {/* 添加课程表单 */}
+                <section className="form-section">
+                    <h2>➕ 添加新课程</h2>
+                    <div className="input-group">
+                        <div className="input-wrapper">
+                            {/* 
+                                useRef 的实际应用：
+                                通过 ref 属性将 DOM 引用绑定到输入框
+                                使得组件可以通过 ref.current 访问 DOM 元素
+                            */}
+                            <input
+                                ref={nameInputRef}
+                                type="text"
+                                placeholder="📝 输入课程名称"
+                                value={newCourseName}
+                                onChange={(e) => setNewCourseName(e.target.value)}
+                                onKeyPress={handleKeyPress}
+                            />
+                        </div>
+                        <div className="input-wrapper">
+                            <input
+                                type="text"
+                                placeholder="📋 输入课程简介"
+                                value={newCourseDesc}
+                                onChange={(e) => setNewCourseDesc(e.target.value)}
+                                onKeyPress={handleKeyPress}
+                            />
+                        </div>
+                        <button className="btn btn-primary" onClick={handleAddCourse}>
+                            ✨ 添加课程
+                        </button>
+                    </div>
+                </section>
+
+                {/* 搜索区域 */}
+                <section className="search-section">
+                    <h2>🔍 搜索课程</h2>
+                    <SearchBar
+                        value={searchKeyword}
+                        onChange={handleSearchChange}
+                        inputRef={searchInputRef}
+                    />
+                    {searchActive && (
+                        <p className="search-stats">
+                            共找到 <strong>{filteredCount}</strong> 个匹配的课程
+                        </p>
+                    )}
+                </section>
+
+                {/* 课程列表 */}
+                <section className="course-list-section">
+                    <h2>
+                        📖 课程列表
+                        <span style={{ fontSize: '14px', fontWeight: 'normal', color: '#888', marginLeft: '10px' }}>
+                            (共 {filteredCount} 门课程)
+                        </span>
+                    </h2>
+                    
+                    {filteredCourses.length === 0 ? (
+                        <div className="empty-state">
+                            <div className="empty-state-icon">
+                                {searchActive ? '🔎' : '📭'}
+                            </div>
+                            <h3>{searchActive ? '没有找到匹配的课程' : '暂无课程'}</h3>
+                            <p>{searchActive ? '尝试其他关键词搜索' : '点击上方"添加课程"开始学习吧！'}</p>
+                        </div>
+                    ) : (
+                        <div className="course-list">
+                            {filteredCourses.map(course => (
+                                <CourseCard
+                                    key={course.id}
+                                    course={course}
+                                    onLearn={handleLearn}
+                                    onDelete={handleDeleteCourse}
+                                    onEdit={handleEdit}
+                                    onSave={handleSaveEdit}
+                                    onCancel={handleCancelEdit}
+                                    isEditing={editingCourse === course.id}
+                                    editName={editName}
+                                    editDesc={editDesc}
+                                    onEditNameChange={setEditName}
+                                    onEditDescChange={setEditDesc}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </section>
+
+                {/* Hooks 使用说明 */}
+                <section className="hooks-info">
+                    <h3>🪝 本实验使用的 Hooks</h3>
+                    <div className="hooks-list">
+                        <div className="hook-item">
+                            <span className="hook-name">useState</span>
+                            <span className="hook-desc">状态管理</span>
+                        </div>
+                        <div className="hook-item">
+                            <span className="hook-name">useEffect</span>
+                            <span className="hook-desc">数据持久化 + 聚焦</span>
+                        </div>
+                        <div className="hook-item">
+                            <span className="hook-name">useRef</span>
+                            <span className="hook-desc">DOM 操作</span>
+                        </div>
+                        <div className="hook-item">
+                            <span className="hook-name">useMemo</span>
+                            <span className="hook-desc">列表缓存</span>
+                        </div>
+                        <div className="hook-item">
+                            <span className="hook-name">useCallback</span>
+                            <span className="hook-desc">函数优化</span>
+                        </div>
+                        <div className="hook-item">
+                            <span className="hook-name">useLocalStorage</span>
+                            <span className="hook-desc">自定义 Hook</span>
+                        </div>
+                        <div className="hook-item">
+                            <span className="hook-name">useDebounce</span>
+                            <span className="hook-desc">自定义 Hook</span>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            {/* 提示消息 */}
+            {toast && (
+                <div className={`toast ${toast.type}`}>
+                    {toast.message}
+                </div>
+            )}
+        </div>
+    );
+}
+
+// ==================== 渲染应用 ====================
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+    </script>
+</body>
+</html>
